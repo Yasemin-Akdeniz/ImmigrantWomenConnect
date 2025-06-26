@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block head_extra %}
+<style>
+    .jumbotron {
+        background-color: #e9ecef;
+        padding: 4rem 2rem;
+        margin-bottom: 2rem;
+        border-radius: .3rem;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Empowerment Through Connection</h1>
+    <p class="lead">A platform dedicated to supporting immigrant women by providing resources, fostering community and sharing experiences.</p>
+    <hr class="my-4">
+    <p>Join our community to access valuable information, connect with others, and share your unique journey.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" role="button">Join Now</a>
+    <a class="btn btn-secondary btn-lg" href="{{ url_for('login') }}" role="button">Login</a>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-4">
+        <h3>Resources</h3>
+        <p>Access curated lists of language courses, job opportunities, legal aid, and social integration programs.</p>
+    </div>
+    <div class="col-md-4">
+        <h3>Community</h3>
+        <p>Connect with other immigrant women, share experiences, ask questions, and build a supportive network.</p>
+    </div>
+    <div class="col-md-4">
+        <h3>Empowerment</h3>
+        <p>Find inspiration and strength through shared stories and practical advice for navigating new beginnings.</p>
+    </div>
+</div>
+
+<hr class="my-4"> {# NEWLY ADDED SECTION START #}
+<h2 class="text-center mb-4">Latest Resources</h2>
+<div class="row">
+    {% if latest_resources %}
+        {% for resource in latest_resources %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ resource.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ resource.category }}</h6>
+                    <p class="card-text">{{ resource.description | truncate(150) }}</p> {# Truncate description #}
+                    {% if resource.link %}
+                        <a href="{{ resource.link }}" class="card-link" target="_blank">Visit Resource</a>
+                    {% endif %}
+                    <p class="card-text mt-2"><small class="text-muted">Posted by {{ resource.author.username }} on {{ resource.date_posted.strftime('%Y-%m-%d') }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center">
+            <p>No resources posted yet. Be the first to <a href="{{ url_for('add_resource') }}">add one!</a></p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} {# NEWLY ADDED SECTION END #}

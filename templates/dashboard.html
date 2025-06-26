@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Welcome, {{ username }}!</h1>
+    <p class="lead">This is your personal dashboard. Here you can manage your contributions and explore resources.</p>
+    <hr class="my-4">
+    <a class="btn btn-primary btn-lg" href="{{ url_for('add_resource') }}" role="button">Add a New Resource</a>
+    <!-- More dashboard content will go here -->
+</div>
+{% endblock %}

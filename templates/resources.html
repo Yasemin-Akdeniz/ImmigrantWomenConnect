@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}All Resources{% endblock %}
+{% block content %}
+<h1 class="mb-4">Available Resources</h1>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form class="row g-3 align-items-center" method="GET" action="{{ url_for('list_resources') }}">
+            <div class="col-md-6">
+                <label for="search" class="visually-hidden">Search</label>
+                <input type="text" class="form-control" id="search" name="search" placeholder="Search by title or description" value="{{ search_query }}">
+            </div>
+            <div class="col-md-4">
+                <label for="category" class="visually-hidden">Category</label>
+                <select class="form-select" id="category" name="category">
+                    {% for category in unique_categories %}
+                        <option value="{{ category }}" {% if category == category_filter %}selected{% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% if resources %}
+        {% for resource in resources %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ resource.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ resource.category }} by {{ resource.author.username }} on {{ resource.date_posted.strftime('%Y-%m-%d') }}</h6>
+                    <p class="card-text">{{ resource.description }}</p>
+                    {% if resource.link %}
+                        <a href="{{ resource.link }}" class="card-link" target="_blank">Visit Resource</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <p class="text-center">No resources found matching your criteria. Try adjusting your search or filters.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
